@@ -22,45 +22,35 @@
 			<div class="data">
 				<h5>Meetings</h5>
 				<ul>
+					@forelse ($meetings as $meeting)
+
+					<li class="data-list">
+						<div class="data-text">
+							<p class="text-class">{{$meeting->title}}</p>
+							<p class="date">{{$meeting->meeting_date}}</p>
+						</div>
+						<div class="actions">
+							<div class="row">
+								<div class="col text-center">
+									<a href="#" class="edit">Edit</a>
+								</div>
+								<div class="col text-center">
+									<form action="">
+										<a href="#" class="delete">Delete</a>
+									</form>
+								</div>
+							</div>
+						</div>
+					</li>
+
+					@empty
+
 					<li class="no-data text-center">
 						No meeting yet.
 					</li>
-					<li class="data-list">
-						<div class="data-text">
-							<p class="text-class">Enim ad cupidatat officia exercitation incididunt aute voluptate </p>
-							<p class="date">October 20, 2020 | 12:14pm</p>
-						</div>
-						<div class="actions">
-							<div class="row">
-								<div class="col text-center">
-									<a href="#" class="edit">Edit</a>
-								</div>
-								<div class="col text-center">
-									<form action="">
-										<a href="#" class="delete">Delete</a>
-									</form>
-								</div>
-							</div>
-						</div>
-					</li>
-					<li class="data-list">
-						<div class="data-text">
-							<p class="text-class">Enim ad cupidatat officia exercitation incididunt aute voluptate </p>
-							<p class="date">October 20, 2020 | 12:14pm</p>
-						</div>
-						<div class="actions">
-							<div class="row">
-								<div class="col text-center">
-									<a href="#" class="edit">Edit</a>
-								</div>
-								<div class="col text-center">
-									<form action="">
-										<a href="#" class="delete">Delete</a>
-									</form>
-								</div>
-							</div>
-						</div>
-					</li>
+					
+					@endforelse
+					
 					<li class="data-list">
 						<div class="data-text">
 							<p class="text-class text-red">Enim ad cupidatat officia exercitation incididunt aute voluptate </p>

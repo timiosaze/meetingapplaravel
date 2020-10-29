@@ -14,6 +14,4 @@
 Route::get('/', function () {
     return view('welcome');
 });
-Route::get('/meetings', function(){
-    return view('meetings.index');
-});
+Route::get('/meetings', 'MeetingController@index')->name('meetings.index');

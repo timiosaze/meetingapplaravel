@@ -15,6 +15,8 @@ class MeetingController extends Controller
     public function index()
     {
         //
+        $meetings = Meeting::all();
+        return view('meetings.index', compact("meetings"));
     }
 
     /**
