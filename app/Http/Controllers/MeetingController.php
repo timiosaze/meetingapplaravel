@@ -15,7 +15,7 @@ class MeetingController extends Controller
     public function index()
     {
         //
-        $meetings = Meeting::all();
+        $meetings = Meeting::orderBy('meeting_date', 'asc')->get();
         return view('meetings.index', compact("meetings"));
     }
 
@@ -38,6 +38,18 @@ class MeetingController extends Controller
     public function store(Request $request)
     {
         //
+        request()->validate([
+            'title' => 'required',
+            'meeting_date' => 'required'
+        ]);
+
+        $meeting = new Meeting();
+        $meeting->title = request('title');
+        $meeting->meeting_date = request('meeting_date');
+        
+        if($meeting->save()){
+            return redirect('/meetings');
+        }
     }
 
     /**
@@ -54,34 +66,54 @@ class MeetingController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Meeting  $meeting
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Meeting $meeting)
+    public function edit($id)
     {
         //
+        $meeting = Meeting::findOrFail($id);
+
+        return view('meetings.edit', compact("meeting"));
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Meeting  $meeting
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Meeting $meeting)
+    public function update(Request $request, $id)
     {
         //
+        request()->validate([
+            'title' => 'required',
+            'meeting_date' => 'required'
+        ]);
+
+        $meeting = Meeting::findOrFail($id);
+        $meeting->title = request('title');
+        $meeting->meeting_date = request('meeting_date');
+        
+        if($meeting->save()){
+            return redirect('/meetings');
+        }
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Meeting  $meeting
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Meeting $meeting)
+    public function destroy($id)
     {
         //
+        $meeting = Meeting::findOrFail($id);
+
+        if($meeting->delete()){
+            return redirect('/meetings');
+        }
     }
 }

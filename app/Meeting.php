@@ -8,8 +8,13 @@ use Illuminate\Database\Eloquent\Model;
 class Meeting extends Model
 {
     //
-    public function getMeetingDateAttribute($value)
-    {
-        return Carbon::parse($value)->format('F,d Y | h:ia');
+    public function checkDate(){
+        $date = Carbon::parse($this->meeting_date);
+        if($date->isToday()){
+            return 'text-red';
+        } else {
+            return '';
+        }
     }
+    
 }

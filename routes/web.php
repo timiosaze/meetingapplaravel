@@ -15,3 +15,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 Route::get('/meetings', 'MeetingController@index')->name('meetings.index');
+Route::post('/meetings', 'MeetingController@store')->name('meetings.store');
+Route::get('/meetings/{id}/edit', 'MeetingController@edit')->name('meetings.edit');
+Route::put('/meetings/{id}', 'MeetingController@update')->name('meetings.update');
+Route::delete('/meetings/{id}', 'MeetingController@destroy')->name('meetings.destroy');

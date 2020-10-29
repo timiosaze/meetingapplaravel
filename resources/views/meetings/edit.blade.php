@@ -5,12 +5,14 @@
 		<section class="section">
 			<div class="create-form">
 				<h3>Edit Meeting</h3>
-				<form action="">
+				<form action="{{route('meetings.update', $meeting->id)}}" method="POST">
+					@csrf
+					@method('PUT')
 					<div class="form-group">
-						<textarea name="" cols="20" rows="3" class="form-control" placeholder="Meeting">Enim ad cupidatat officia exercitation incididunt aute voluptate</textarea>
+						<textarea name="title" cols="20" rows="3" class="form-control" placeholder="Meeting">{{$meeting->title}}</textarea>
 					</div>
 					<div class="form-group">
-						<input type="text" name="" class="form-control selector" placeholder="Meeting Date" value="2020-10-15 12:00">
+						<input type="text" name="meeting_date" class="form-control selector" placeholder="Meeting Date" value="{{$meeting->meeting_date}}">
 					</div>
 					<button class="btn-primary btn float-right">Update</button>
 					<div class="clearfix"></div>
