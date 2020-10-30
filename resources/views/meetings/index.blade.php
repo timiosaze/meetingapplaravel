@@ -4,6 +4,8 @@
 	
 		<section class="section">
 			<div class="create-form">
+				@include('includes.validation')
+				@include('includes.session')
 				<h3>New Meeting</h3>
 				<form action="{{route('meetings.store')}}" method="POST">
 					@csrf
@@ -76,10 +78,7 @@
 			</div>
 		</section>
 		<section class="section">
-			<div class="paginate">
-				<a href="#" class="btn btn-outline-primary">Prev</a>
-				<a href="#" class="btn btn-outline-primary">Next</a>
-			</div>
+			{{$meetings->links()}}
 		</section>
 
 @endsection

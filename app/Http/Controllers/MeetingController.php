@@ -3,10 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Meeting;
+use Auth;
 use Illuminate\Http\Request;
 
 class MeetingController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -15,7 +20,7 @@ class MeetingController extends Controller
     public function index()
     {
         //
-        $meetings = Meeting::orderBy('meeting_date', 'asc')->get();
+        $meetings = Meeting::where('user_id', Auth::id())->orderBy('meeting_date', 'asc')->paginate(7);
         return view('meetings.index', compact("meetings"));
     }
 
@@ -38,17 +43,17 @@ class MeetingController extends Controller
     public function store(Request $request)
     {
         //
-        request()->validate([
-            'title' => 'required',
-            'meeting_date' => 'required'
-        ]);
+        $this->ValidateRequest();
 
         $meeting = new Meeting();
         $meeting->title = request('title');
         $meeting->meeting_date = request('meeting_date');
+        $meeting->user_id = Auth::id();
         
         if($meeting->save()){
-            return redirect('/meetings');
+            return redirect('/meetings')->with('success', 'Meeting successfully saved');
+        } else {
+            return redirect('/meetings')->with('failure', 'Meeting not saved');
         }
     }
 
@@ -72,7 +77,7 @@ class MeetingController extends Controller
     public function edit($id)
     {
         //
-        $meeting = Meeting::findOrFail($id);
+        $meeting = Meeting::where('user_id', Auth::id())->findOrFail($id);
 
         return view('meetings.edit', compact("meeting"));
     }
@@ -87,17 +92,16 @@ class MeetingController extends Controller
     public function update(Request $request, $id)
     {
         //
-        request()->validate([
-            'title' => 'required',
-            'meeting_date' => 'required'
-        ]);
+        $this->ValidateRequest();
 
-        $meeting = Meeting::findOrFail($id);
+        $meeting = Meeting::where('user_id', Auth::id())->findOrFail($id);
         $meeting->title = request('title');
         $meeting->meeting_date = request('meeting_date');
         
         if($meeting->save()){
-            return redirect('/meetings');
+            return redirect('/meetings')->with('success', 'Meeting successfully updated');
+        } else {
+            return redirect('/meetings')->with('failure', 'Meeting not updated');
         }
     }
 
@@ -110,10 +114,20 @@ class MeetingController extends Controller
     public function destroy($id)
     {
         //
-        $meeting = Meeting::findOrFail($id);
+        $meeting = Meeting::where('user_id', Auth::id())->findOrFail($id);
 
         if($meeting->delete()){
-            return redirect('/meetings');
+            return redirect('/meetings')->with('success', 'Meeting successfully deleted');
+        } else {
+            return redirect('/meetings')->with('failure', 'Meeting not deleted');
         }
+    }
+    
+    public function ValidateRequest()
+    {
+        return request()->validate([
+            'title' => 'required',
+            'meeting_date' => 'required'
+        ]);
     }
 }

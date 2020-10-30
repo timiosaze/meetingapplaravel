@@ -4,6 +4,7 @@
 
 		<section class="section">
 			<div class="create-form">
+				@include('includes.validation')
 				<h3>Edit Meeting</h3>
 				<form action="{{route('meetings.update', $meeting->id)}}" method="POST">
 					@csrf

@@ -16,5 +16,8 @@ class Meeting extends Model
             return '';
         }
     }
-    
+    public function user()
+    {
+        return $this->belongsTo('App\User');
+    }
 }
